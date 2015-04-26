@@ -1,6 +1,7 @@
 package yandex.fotki.sync.service;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.List;
 
 import yandex.fotki.sync.domain.Album;
@@ -49,7 +50,13 @@ public class ManageService {
 			return;
 		}
 
-		final File[] listFiles = f.listFiles();
+		final File[] listFiles = f.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith("jpg");
+			}
+		});
 		for (File file : listFiles) {
 			boolean loaded = false;
 			for (Photo photo : photos) {
