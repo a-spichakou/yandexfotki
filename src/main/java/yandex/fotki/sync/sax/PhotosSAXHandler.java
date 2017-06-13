@@ -15,6 +15,7 @@ public class PhotosSAXHandler extends DefaultHandler {
 	private Photo tmpPhoto = new Photo();
 	private String tmpValue;
 	private String nextUrl;
+	private String tmpUrl;
 
 	@Override
 	public void startElement(String s, String s1, String elementName,
@@ -26,6 +27,9 @@ public class PhotosSAXHandler extends DefaultHandler {
 			final String rel = attributes.getValue("rel"); 
 			if ("next".equalsIgnoreCase(rel)) {
 				nextUrl = attributes.getValue("href");
+			}
+			if ("edit".equalsIgnoreCase(rel)) {
+				tmpPhoto.setUrl(attributes.getValue("href"));
 			}
 		}
 	}

@@ -3,6 +3,7 @@ package yandex.fotki.sync.domain;
 public class Photo {
 	private String id;
 	private String name;
+	private String url;
 
 	public String getName() {
 		return name;
@@ -18,6 +19,14 @@ public class Photo {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

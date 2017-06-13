@@ -12,6 +12,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -47,11 +48,23 @@ public class PhotoService {
 		method.setParams(params);
 				
 		MultipartEntity entity = new MultipartEntity();
-		FileBody fileBody = new FileBody(file);
+		FileBody fileBody = new CountingFileBody(file);
+		
 		entity.addPart("image", fileBody);
 		entity.addPart("access", new StringBody("private"));		
 		
 		method.setEntity(entity);
+		method.addHeader(RequestHeaderFactory.getHeader());
+		HttpResponse response = httpclient.execute(method);
+		method.releaseConnection();
+		System.out.println(response.getStatusLine());
+	}
+	
+	public void deletePhoto(Photo photo) throws ClientProtocolException, IOException{
+		final HttpDelete method = new HttpDelete(photo.getUrl());
+		final HttpParams params = new BasicHttpParams();		
+		method.setParams(params);
+				
 		method.addHeader(RequestHeaderFactory.getHeader());
 		HttpResponse response = httpclient.execute(method);
 		method.releaseConnection();
